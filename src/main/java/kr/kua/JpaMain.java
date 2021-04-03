@@ -18,8 +18,8 @@ public class JpaMain {
         try{
             Member findMember = em.find(Member.class, 101L);
             Member findMember2 = em.find(Member.class, 101L);
-            // JPA 는 반드시 조회된 객체를 영속성 컨텍스트에 넣어준다.
-            // 다음에 영속성 컨텍스트에 1차 캐시에 저장된 곳에서 찾아서 findMember2를 찾는다.
+
+                    System.out.println("result : " + (findMember == findMember2));
 
             tx.commit();
         }catch(Exception e) {
