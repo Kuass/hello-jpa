@@ -16,14 +16,10 @@ public class JpaMain {
         tx.begin();
 
         try{
-
-            // 비영속
-            Member member = new Member();
-            member.setId(1L);
-            member.setName("helloJPA");
-
-            // 영속
-            em.persist(member);
+            Member findMember = em.find(Member.class, 101L);
+            Member findMember2 = em.find(Member.class, 101L);
+            // JPA 는 반드시 조회된 객체를 영속성 컨텍스트에 넣어준다.
+            // 다음에 영속성 컨텍스트에 1차 캐시에 저장된 곳에서 찾아서 findMember2를 찾는다.
 
             tx.commit();
         }catch(Exception e) {
