@@ -16,11 +16,23 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Member member = new Member();
-            member.setUsername("C");
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setTeamId(team.getId());
             em.persist(member);
-            System.out.println("member.id = " + member.getId());
+
+            Member findMember = em.find(Member.class, member.getId());
+            Long findTeamId = findMember.getTeamId();
+            Team findTeam = em.find(Team.class, findTeamId);
+
+            //SELECT * FROM MEMBER ;
+            //SELECT * FROM TEAM ;
+            //SELECT * FROM MEMBER m JOIN TEAM t ON m.TEAM_ID = t.TEAM_ID;
+
             tx.commit();
         }catch(Exception e) {
             tx.rollback();
