@@ -16,12 +16,14 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Member findMember = em.find(Member.class, 101L);
-            Member findMember2 = em.find(Member.class, 101L);
+            Member member1 = new Member(150L , "A");
+            Member member2 = new Member(160L, "B");
 
-                    System.out.println("result : " + (findMember == findMember2));
+            em.persist(member1);
+            em.persist(member2);
 
             tx.commit();
+            // 트렌젝션 커밋때 persist 한 Member 객체가 Query 된다.
         }catch(Exception e) {
             tx.rollback();
         }finally{
