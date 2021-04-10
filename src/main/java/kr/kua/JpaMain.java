@@ -5,6 +5,7 @@ import org.hibernate.Hibernate;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class JpaMain {
 
@@ -30,11 +31,8 @@ public class JpaMain {
 
             Member m = em.find(Member.class, member.getId());
 
-            System.out.println("m = " + m.getTeam().getClass());
-
-            System.out.println("====");
-            System.out.println("teamName = " + m.getTeam().getName());
-            System.out.println("====");
+            List<Member> members = em.createQuery("select m from Member m", Member.class)
+                    .getResultList();
 
             tx.commit();
         }catch(Exception e) {
