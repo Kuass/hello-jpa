@@ -31,7 +31,7 @@ public class JpaMain {
             em.clear();
 
             Parent findParent = em.find(Parent.class, parent.getId());
-            findParent.getChildList().remove(0);
+            em.remove(findParent); // 부모가 죽으니 자식도 모두 죽었다.
 
             tx.commit();
         }catch(Exception e) {
