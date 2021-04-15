@@ -17,21 +17,13 @@ public class JpaMain {
         tx.begin();
 
         try{
-            Parent parent = new Parent();
 
-            Child child1 = new Child();
-            Child child2 = new Child();
-
-            parent.addChild(child1);
-            parent.addChild(child2);
-
-            em.persist(parent);
-
-            em.flush();
-            em.clear();
-
-            Parent findParent = em.find(Parent.class, parent.getId());
-            em.remove(findParent); // 부모가 죽으니 자식도 모두 죽었다.
+            List<Member> result = em.createQuery(
+                    "select m from Member m where m.username like '%kim%'",
+                    Member.class
+            ).getResultList();
+            // from "Member m" where 은 "Member as m" 이며 엔티티를 대상으로 하는 객체지향 SQL 이다.
+            // select "m" from 의 "m"은 alias된 Member의 m 이다.
 
             tx.commit();
         }catch(Exception e) {
