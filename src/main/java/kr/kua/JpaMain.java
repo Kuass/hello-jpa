@@ -3,6 +3,9 @@ package kr.kua;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,12 +21,14 @@ public class JpaMain {
 
         try{
 
-            List<Member> result = em.createQuery(
-                    "select m from Member m where m.username like '%kim%'",
-                    Member.class
-            ).getResultList();
-            // from "Member m" where 은 "Member as m" 이며 엔티티를 대상으로 하는 객체지향 SQL 이다.
-            // select "m" from 의 "m"은 alias된 Member의 m 이다.
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Member> query = cb.createQuery(Member.class);
+
+            Root<Member> m = query.from(Member.class);
+
+            CriteriaQuery<Member> cq = query.select(m).where(cb.equal(m.get("username"), "kim"));
+            List<Member> resultList = em.createQuery(cq)
+                    .getResultList();
 
             tx.commit();
         }catch(Exception e) {
