@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-public class Member extends BaseEntity {
+public class Member {
 
     @Id @GeneratedValue
     @Column(name = "MEMBER_ID")
@@ -13,6 +13,9 @@ public class Member extends BaseEntity {
 
     @Column(name = "USERNAME")
     private String username;
+
+    @Column(name = "AGE")
+    private int age;
 
 //    @Column(name = "TEAM_ID")
 //    private Long teamId;
@@ -42,5 +45,13 @@ public class Member extends BaseEntity {
     }
 
     public void setTeam(Team team) { this.team = team; }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 }
 

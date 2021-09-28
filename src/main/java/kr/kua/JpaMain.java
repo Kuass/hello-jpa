@@ -21,13 +21,20 @@ public class JpaMain {
 
         try{
 
-            CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<Member> query = cb.createQuery(Member.class);
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
 
-            Root<Member> m = query.from(Member.class);
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setAge(10);
+            member.setTeam(team);
 
-            CriteriaQuery<Member> cq = query.select(m).where(cb.equal(m.get("username"), "kim"));
-            List<Member> resultList = em.createQuery(cq)
+            em.flush();
+            em.clear();
+
+            String query = "SELECT m FROM Member m, Team t where m.username = t.name";
+            List<Member> result = em.createQuery(query, Member.class)
                     .getResultList();
 
             tx.commit();
